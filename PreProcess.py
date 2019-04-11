@@ -1,5 +1,8 @@
 import pandas as pd
-# spacy - for semantic corelation
+import correlation
+
+# from BadParticipantsRemove import *
+# import BadParticipantsRemove
 
 # csv path
 csvPath=''
@@ -18,7 +21,13 @@ UserPictureAnswer=[]
 def ReadFilesToDataFrame():
     global FacesPictures,Pictures, NotRegUsers,Report,UserAnswer,UserTest
     FacesPictures = pd.read_csv(csvPath + "\\FacesPictures.csv")
+    # change from : "no face" to "nonFace" in FacesPictures
+    FacesPictures.loc[FacesPictures['Description'] == 'no face', 'Description'] = 'nonFace'
+
     Pictures = pd.read_csv(csvPath + "\\Pictures.csv")
+    # change from : "non" to "nothing" in Pictures
+    Pictures['description'] = Pictures['description'].fillna('nothing')
+
     NotRegUsers = pd.read_csv(csvPath + "\\NotRegUsers.csv")
     Report = pd.read_csv(csvPath + "\\Report.csv")
     UserAnswer = pd.read_csv(csvPath + "\\UserAnswer.csv")
@@ -34,41 +43,47 @@ def SplitToPictureAndFacesAnswers():
 
 # add 0 or 1 if answer is right or wrong add column to UserFacesAnswer
 def CheckFacesAnswers():
-    for index,row in UserFacesAnswer:
+    global UserFacesAnswer
+    ranks=[]
+    for index, row in UserFacesAnswer.iterrows():
         faceId=row["qId"]
-        correctAnswer=getPictureCorrectAnswer(faceId)
-        userAnser=row["answer"]
+        correctAnswer=getFaceCorrectAnswer(faceId)
+        userAnser=row.answer
         if userAnser==correctAnswer:
-            row["answerRank"]=1
+            ranks.append(1)
         else:
-            row["answerRank"] = 0
+            ranks.append(0)
+    # add column of rank - 0 wrong, 1 right
+    UserFacesAnswer['answerRank'] = ranks
 
-# TODO - get correlation between correct answer and user answer
+# add rank to user answer (by coorelation)
 def CheckPicturseAnswers():
-    return 0
+    global UserPictureAnswer
+    ranks = []
+    # for each row in answers - calculate rank
+    for index, row in UserPictureAnswer.iterrows():
+        picId = row["qId"]
+        correctAnswer = getPictureCorrectAnswer(picId)
+        userAnser = row.answer
+        rank=GetCorrelation(userAnser,correctAnswer)
+        ranks.append(rank)
+    # add column of rank
+    UserPictureAnswer['answerRank'] = ranks
+
+# given 2 words, gives correlation rank (between 0 and 1)
+def GetCorrelation(userAnser, correctAnswer):
+    return correlation.calculate_correlation(userAnser, correctAnswer)
 
 # given faceId returns correct answer
-def getPictureCorrectAnswer(faceId):
-    row=FacesPictures.loc[UserAnswer['PicID'] == faceId]
-    return row["Description"]
+def getFaceCorrectAnswer(faceId):
+    global FacesPictures, UserAnswer
+    row=FacesPictures.loc[FacesPictures['PicID'] == faceId]
+    return row["Description"].values[0]
 
 # given picId returns correct answer
 def getPictureCorrectAnswer(picId):
-    row=Pictures.loc[UserAnswer['picID'] == picId]
-    return row["Description"]
-
-# TODO - check if user answer wrong to one of the test question - remove participant from all tables
-def RemoveUnwantedParticipant():
-    pass
+    global Pictures
+    row=Pictures.loc[Pictures['picId'] == picId]
+    return row["description"].values[0]
 
 
-def main(dataPath):
-    global csvPath
-    csvPath=dataPath
-    ReadFilesToDataFrame()
-    SplitToPictureAndFacesAnswers()
-    CheckPicturseAnswers()
-    RemoveUnwantedParticipant()
-    CheckFacesAnswers()
-
-main('C:\\Users\\nogahm\\PycharmProjects\\P-Sense-Data-Analysis\\tables')
