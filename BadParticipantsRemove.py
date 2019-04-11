@@ -1,3 +1,5 @@
+import PreProcess
+
 from PreProcess import *
 
 removedUsers=[]
@@ -10,11 +12,11 @@ def RemoveUnwantedParticipant():
 
 # check if answered wrong in one of the constant question
 def getBadTests():
-    global UserPictureAnswer
-    constantPictures=list('25', '2', '37', '44', '23')
+
+    constantPictures=['25', '2', '37', '44', '23']
     badTests=[]
     # get data of question
-    constansAnswers=UserPictureAnswer.loc[UserPictureAnswer['qId'].isin(constantPictures)]
+    constansAnswers=PreProcess.UserPictureAnswer.loc[PreProcess.UserPictureAnswer['qId'].isin(constantPictures)]
     for index,row in constansAnswers.iterrows():
         correctAnswer=getPictureCorrectAnswer(row['qId'])
         userAnswer=row.answer
@@ -31,7 +33,7 @@ def getBadParticipant(badTests):
 
 # given list of users - delete all their tests from UserFacesAnswer, UserPictureAnswer, UserTest, Report
 def removeAllTestsOfBadParticipant(badParticipant):
-    global UserFacesAnswer, UserPictureAnswer, UserTest, Report, removedUsers
+    # global UserFacesAnswer, UserPictureAnswer, UserTest, Report, removedUsers
     removedUsers=badParticipant
     # get tests to remove by bad participants
     testsToRemove=UserTest.loc[UserTest['userId'].isin(badParticipant)]
