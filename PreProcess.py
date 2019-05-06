@@ -9,10 +9,13 @@ csvPath=''
 # DataFrame for each table
 FacesPictures=[]
 Pictures=[]
+Words=[]
 NotRegUsers=[]
 Report=[]
+ReportPANAS=[]
 UserAnswer=[]
 UserTest=[]
+
 
 UserFacesAnswer=[]
 UserPictureAnswer=[]
@@ -32,6 +35,9 @@ def ReadFilesToDataFrame():
     Report = pd.read_csv(csvPath + "\\Report.csv")
     UserAnswer = pd.read_csv(csvPath + "\\UserAnswer.csv")
     UserTest = pd.read_csv(csvPath + "\\UserTest.csv")
+    Words = pd.read_csv(csvPath + "\\Words.csv")
+    ReportPANAS = pd.read_csv(csvPath + "\\ReportPANAS.csv")
+
 
 # split user answers to 2 data frames
 def SplitToPictureAndFacesAnswers():

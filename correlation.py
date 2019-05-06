@@ -19,4 +19,3 @@ def calculate_correlation(a, b):
         return 1
     else:
         return sentiment_analysis(a, b)
-

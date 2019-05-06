@@ -1,7 +1,33 @@
 userID,age,gender,email,hand
-1,26,female,oran.rozenbaum@gmail.com,left
-2,22,female,oranroz@gmail.com,left
-3,1,female,kkkk@ddd.com,right
-4,1,female,kkkk@ddd.com,right
-5,1,female,kkkk@ddd.com,right
-6,22,male,,left
+1,29,male,native language,right
+3,36,male,native language,right
+4,46,male,native language,left
+5,25,male,native language,right
+6,55,male,native language,left
+7,57,male,native language,right
+8,33,male,native language,right
+9,31,male,native language,left
+10,33,male,native language,left
+11,39,male,native language,right
+12,37,female,native language,right
+13,22,female,native language,right
+14,37,female,native language,both
+15,39,male,native language,right
+16,39,male,native language,right
+17,39,male,native language,right
+18,31,male,native language,left
+19,34,male,native language,right
+20,31,female,native language,right
+21,31,female,native language,right
+22,70,female,native language,right
+23,36,male,native language,left
+24,35,male,native language,left
+25,26,male,native language,right
+26,30,male,native language,right
+27,30,female,native language,right
+28,28,male,native language,right
+29,26,female,native language,right
+30,21,female,native language,left
+31,32,male,native language,right
+32,35,female,native language,right
+2,36,male,native language,right

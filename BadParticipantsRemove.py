@@ -12,7 +12,6 @@ def RemoveUnwantedParticipant():
 
 # check if answered wrong in one of the constant question
 def getBadTests():
-
     constantPictures=['25', '2', '37', '44', '23']
     badTests=[]
     # get data of question
