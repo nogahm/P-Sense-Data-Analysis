@@ -5,8 +5,14 @@ def main(dataPath):
     PreProcess.csvPath=dataPath
     PreProcess.ReadFilesToDataFrame()
     PreProcess.SplitToPictureAndFacesAnswers()
-    BadParticipantsRemove.RemoveUnwantedParticipant()
-    PreProcess.CheckPicturseAnswers()
+    # BadParticipantsRemove.RemoveParticipantNotFinish()
+    # BadParticipantsRemove.RemoveUnwantedParticipant()
+    # PreProcess.CheckPicturseAnswers()
+    PreProcess.GetTestRates()
+    PreProcess.GetTestMovie()
+    PreProcess.GetTestChangeInEmotion()
     PreProcess.CheckFacesAnswers()
 
+
 main('tables')
+
