@@ -48,3 +48,9 @@ def removeAllTestsOfBadParticipant(badParticipant):
     # remove from Report
     indexNames = Report[(Report['userId'].isin(badParticipant))].index
     Report.drop(indexNames, inplace=True)
+
+def RemoveParticipantsNotReportPANAS():
+    # save only tests with users who finish all experimant
+    # PreProcess.UserTest = PreProcess.UserTest.join(PreProcess.ReportPANAS, left_on='userId', right_on='userId', how='left')
+    PreProcess.UserTest=PreProcess.UserTest.merge(PreProcess.ReportPANAS , on='userId', how='inner')
+

@@ -25,7 +25,7 @@ TestsWithScores = pd.DataFrame()
 
 # read all six tables to dataFrames
 def ReadFilesToDataFrame():
-    global FacesPictures,Pictures, NotRegUsers,Report,UserAnswer,UserTest, Words
+    global FacesPictures,Pictures, NotRegUsers,Report,UserAnswer,UserTest, Words,ReportPANAS
     FacesPictures = pd.read_csv(csvPath + "\\FacesPictures.csv")
     # change from : "no face" to "nonFace" in FacesPictures
     FacesPictures.loc[FacesPictures['Description'] == 'no face', 'Description'] = 'nonFace'
@@ -146,7 +146,7 @@ def AddRealAnswer(currAnswers):
     currAnswers['realAnswer'] = realAnswer
     return currAnswers
 
-# TODO: if not answered nothing - check correlation
+# TODO: if not answered nothing - check correlation (wrote nothing not correctly)
 def CalcFalsePositive(currAnswers):
     count=0
     sum=0
@@ -160,7 +160,9 @@ def CalcFalsePositive(currAnswers):
         if (row["Qtype"] == "face"):
             if (row["realAnswer"] == "nonFace" and row["answer"] == "face"):
                 sum = sum + 1
-        count=count+1
+        # count only not real questions
+        if(row["realAnswer"]=="nothing" or row["realAnswer"] == "nonFace" or row["realAnswer"] == "no word"):
+            count=count+1
     return sum/count
 
 # answered "nothing" when was real
@@ -214,45 +216,63 @@ def CalcTruePositive(currAnswers):
         count=count+1
     return sum/count
 
-
 def GetTestMovie():
     global TestsWithScores, UserTest, NotRegUsers
+    TestsWithScores=pd.read_csv('TestsWithScores.csv')
+    TestsWithScores["video"] = ""
     for id in NotRegUsers["userID"]:
         currUserTests=(UserTest.loc[UserTest['userId'] == id]).copy()
+        if(len(currUserTests)<3):
+            continue
         # sort by testId
         currUserTests.sort_values(by=['testId'])
         # add movie
-        testId1 = currUserTests["testId"][0]
-        testId2 = currUserTests["testId"][1]
-        testId3 = currUserTests["testId"][2]
+        testId1 = currUserTests.iloc[[0]]["testId"].values[0]
+        testId2 =currUserTests.iloc[[1]]["testId"].values[0]
+        testId3 = currUserTests.iloc[[2]]["testId"].values[0]
         # calm, stress1, stress2
         if(id%2==0):
-            TestsWithScores["video"][testId1]="calm"
-            TestsWithScores["video"][testId2]="stress1"
-            TestsWithScores["video"][testId3]="stress2"
+            TestsWithScores.loc[TestsWithScores['testId'] == testId1,'video']="calm"
+            TestsWithScores.loc[TestsWithScores['testId'] == testId2,'video']="stress1"
+            TestsWithScores.loc[TestsWithScores['testId'] == testId3,'video']="stress2"
         # stress1, stress2, calm
         else:
-            TestsWithScores["video"][testId1] = "stress1"
-            TestsWithScores["video"][testId2] = "stress2"
-            TestsWithScores["video"][testId3] = "calm"
+            TestsWithScores.loc[TestsWithScores['testId'] == testId1, 'video']= "stress1"
+            TestsWithScores.loc[TestsWithScores['testId'] == testId2,'video'] = "stress2"
+            TestsWithScores.loc[TestsWithScores['testId'] == testId3,'video'] = "calm"
 
         # add reportChange
-        currUserReport = (Report.loc[UserTest['userId'] == id]).copy()
+        currUserReport = (Report.loc[Report['userId'] == id]).copy()
         # sort by report id
         currUserReport.sort_values(by=['reportId'])
-        report1 = currUserReport[0]
-        report2 = currUserReport[1]
-        report3 = currUserReport[2]
-        report4 = currUserReport[3]
-        difCalm1=report1["calmLevel"]-report2["calmLevel"]
-        difHappy1 = report1["happyLevel"] - report2["happyLevel"]
-        difCalm2 = report2["calmLevel"] - report3["calmLevel"]
-        difHappy2 = report2["happyLevel"] - report3["happyLevel"]
-        difCalm3 = report3["calmLevel"] - report4["calmLevel"]
-        difHappy3 = report3["happyLevel"] - report4["happyLevel"]
-        TestsWithScores["diffCalm"][testId1] = difCalm1
-        TestsWithScores["diffCalm"][testId2] = difCalm2
-        TestsWithScores["diffCalm"][testId3] = difCalm3
-        TestsWithScores["diffHappy"][testId1] = difHappy1
-        TestsWithScores["diffHappy"][testId2] = difHappy2
-        TestsWithScores["diffHappy"][testId3] = difHappy3
+        report1 = currUserReport.iloc[[0]]
+        report2 = currUserReport.iloc[[1]]
+        report3 = currUserReport.iloc[[2]]
+        report4 = currUserReport.iloc[[3]]
+        difCalm1=report1["calmLevel"].values[0]-report2["calmLevel"].values[0]
+        difHappy1 = report1["happyLevel"].values[0] - report2["happyLevel"].values[0]
+        difCalm2 = report2["calmLevel"].values[0] - report3["calmLevel"].values[0]
+        difHappy2 = report2["happyLevel"].values[0] - report3["happyLevel"].values[0]
+        difCalm3 = report3["calmLevel"].values[0] - report4["calmLevel"].values[0]
+        difHappy3 = report3["happyLevel"].values[0]- report4["happyLevel"].values[0]
+        TestsWithScores.loc[TestsWithScores['testId'] == testId1,"diffCalm"]= difCalm1
+        TestsWithScores.loc[TestsWithScores['testId'] == testId2,"diffCalm"]= difCalm2
+        TestsWithScores.loc[TestsWithScores['testId'] == testId3,"diffCalm"]= difCalm3
+        TestsWithScores.loc[TestsWithScores['testId'] == testId1,"diffHappy"]= difHappy1
+        TestsWithScores.loc[TestsWithScores['testId'] == testId2,"diffHappy"]= difHappy2
+        TestsWithScores.loc[TestsWithScores['testId'] == testId3,"diffHappy"]= difHappy3
+        # add happy and calm report
+        TestsWithScores.loc[TestsWithScores['testId'] == testId1,"CalmLevel"]= report2["calmLevel"].values[0]
+        TestsWithScores.loc[TestsWithScores['testId'] == testId2,"CalmLevel"]= report3["calmLevel"].values[0]
+        TestsWithScores.loc[TestsWithScores['testId'] == testId3,"CalmLevel"]= report4["calmLevel"].values[0]
+
+        TestsWithScores.loc[TestsWithScores['testId'] == testId1,"PositiveLevel"]= report2["happyLevel"].values[0]
+        TestsWithScores.loc[TestsWithScores['testId'] == testId2,"PositiveLevel"]= report3["happyLevel"].values[0]
+        TestsWithScores.loc[TestsWithScores['testId'] == testId3,"PositiveLevel"]= report4["happyLevel"].values[0]
+
+
+
+def SaveTests():
+    global TestsWithScores
+    TestsWithScores.to_csv('TestsWithScores.csv', encoding='utf-8', index=False)
+
