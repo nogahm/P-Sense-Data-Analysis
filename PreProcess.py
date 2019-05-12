@@ -287,8 +287,8 @@ def addUserInfoToTest():
         temp = (UserTest.loc[UserTest['testId'] == row['testId']]).copy()
         id=temp['userId'].iloc[0]
         currentUser = (NotRegUsers.loc[NotRegUsers['userID'] == id]).copy()
-        TestsWithScores['userId'] = currentUser['userID']
-        TestsWithScores['age'] = currentUser['age']
-        TestsWithScores['gender'] = currentUser['gender']
-        TestsWithScores['englishLevel'] = currentUser['email']
-        TestsWithScores['hand'] = currentUser['hand']
+        TestsWithScores.loc[TestsWithScores['testId']==row['testId'],'userId'] = currentUser['userID'].iloc[0]
+        TestsWithScores.loc[TestsWithScores['testId']==row['testId'],'age'] = currentUser['age'].iloc[0]
+        TestsWithScores.loc[TestsWithScores['testId']==row['testId'],'gender'] = currentUser['gender'].iloc[0]
+        TestsWithScores.loc[TestsWithScores['testId']==row['testId'],'englishLevel'] = currentUser['email'].iloc[0]
+        TestsWithScores.loc[TestsWithScores['testId']==row['testId'],'hand'] = currentUser['hand'].iloc[0]
