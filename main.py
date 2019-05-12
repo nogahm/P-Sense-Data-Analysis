@@ -6,18 +6,19 @@ def main(dataPath):
     PreProcess.csvPath=dataPath
     PreProcess.ReadFilesToDataFrame()
     PreProcess.SplitToPictureAndFacesAnswers()
-    BadParticipantsRemove.RemoveParticipantsNotReportPANAS()
+    # BadParticipantsRemove.RemoveParticipantsNotReportPANAS()
     # BadParticipantsRemove.RemoveParticipantNotFinish()
     # BadParticipantsRemove.RemoveUnwantedParticipant()
     # PreProcess.CheckPicturseAnswers()
-    PreProcess.GetTestRates()
-    PreProcess.SaveTests()
+    PreProcess.LoadTestsWithScores()
+    # PreProcess.GetTestRates()
     PreProcess.GetTestMovie()
-    Graphs.ShowFalsePositiveGraphs()
     # PreProcess.GetTestChangeInEmotion()
     # PreProcess.CheckFacesAnswers()
     PreProcess.addUserInfoToTest()
     PreProcess.SaveTests()
+    Graphs.ShowFalsePositiveGraphs()
+
 
 
 main('tables')
