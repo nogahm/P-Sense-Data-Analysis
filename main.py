@@ -10,16 +10,15 @@ def main(dataPath):
     # BadParticipantsRemove.RemoveParticipantNotFinish()
     # BadParticipantsRemove.RemoveUnwantedParticipant()
     # PreProcess.CheckPicturseAnswers()
-    PreProcess.LoadTestsWithScores()
+    # PreProcess.LoadTestsWithScores()
     # PreProcess.GetTestRates()
-    PreProcess.GetTestMovie()
+    # PreProcess.GetTestMovie()
     # PreProcess.GetTestChangeInEmotion()
     # PreProcess.CheckFacesAnswers()
-    PreProcess.addUserInfoToTest()
-    PreProcess.SaveTests()
-    Graphs.ShowFalsePositiveGraphs()
-
-
+    # PreProcess.addUserInfoToTest()
+    # PreProcess.SaveTests()
+    PreProcess.LoadTestsWithScores()
+    Graphs.ShowFalsePositiveGraphs(PreProcess.TestsWithScores.loc[PreProcess.TestsWithScores['video']=='stress2'])
 
 main('tables')
 
