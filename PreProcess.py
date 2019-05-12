@@ -269,10 +269,26 @@ def GetTestMovie():
         TestsWithScores.loc[TestsWithScores['testId'] == testId1,"PositiveLevel"]= report2["happyLevel"].values[0]
         TestsWithScores.loc[TestsWithScores['testId'] == testId2,"PositiveLevel"]= report3["happyLevel"].values[0]
         TestsWithScores.loc[TestsWithScores['testId'] == testId3,"PositiveLevel"]= report4["happyLevel"].values[0]
-        SaveTests()
 
 
 def SaveTests():
     global TestsWithScores, csvPath
     TestsWithScores.to_csv(csvPath + '\\TestsWithScores.csv', encoding='utf-8', index=False)
 
+def addUserInfoToTest():
+    global TestsWithScores, NotRegUsers, UserTest
+    testsCopy=TestsWithScores.copy()
+    TestsWithScores['userId'] = ''
+    TestsWithScores['age'] = ''
+    TestsWithScores['gender'] = ''
+    TestsWithScores['englishLevel'] = ''
+    TestsWithScores['hand'] = ''
+    for index, row in testsCopy.iterrows():
+        temp = (UserTest.loc[UserTest['testId'] == row['testId']]).copy()
+        id=temp['userId'].iloc[0]
+        currentUser = (NotRegUsers.loc[NotRegUsers['userID'] == id]).copy()
+        TestsWithScores['userId'] = currentUser['userID']
+        TestsWithScores['age'] = currentUser['age']
+        TestsWithScores['gender'] = currentUser['gender']
+        TestsWithScores['englishLevel'] = currentUser['email']
+        TestsWithScores['hand'] = currentUser['hand']

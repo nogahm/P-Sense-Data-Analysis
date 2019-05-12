@@ -16,6 +16,8 @@ def main(dataPath):
     Graphs.ShowFalsePositiveGraphs()
     # PreProcess.GetTestChangeInEmotion()
     # PreProcess.CheckFacesAnswers()
+    PreProcess.addUserInfoToTest()
+    PreProcess.SaveTests()
 
 
 main('tables')
