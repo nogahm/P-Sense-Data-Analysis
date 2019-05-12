@@ -217,8 +217,8 @@ def CalcTruePositive(currAnswers):
     return sum/count
 
 def GetTestMovie():
-    global TestsWithScores, UserTest, NotRegUsers
-    TestsWithScores=pd.read_csv('TestsWithScores.csv')
+    global TestsWithScores, UserTest, NotRegUsers, csvPath
+    TestsWithScores=pd.read_csv(csvPath + '\\TestsWithScores.csv')
     TestsWithScores["video"] = ""
     for id in NotRegUsers["userID"]:
         currUserTests=(UserTest.loc[UserTest['userId'] == id]).copy()
@@ -269,10 +269,10 @@ def GetTestMovie():
         TestsWithScores.loc[TestsWithScores['testId'] == testId1,"PositiveLevel"]= report2["happyLevel"].values[0]
         TestsWithScores.loc[TestsWithScores['testId'] == testId2,"PositiveLevel"]= report3["happyLevel"].values[0]
         TestsWithScores.loc[TestsWithScores['testId'] == testId3,"PositiveLevel"]= report4["happyLevel"].values[0]
-
+        SaveTests()
 
 
 def SaveTests():
-    global TestsWithScores
-    TestsWithScores.to_csv('TestsWithScores.csv', encoding='utf-8', index=False)
+    global TestsWithScores, csvPath
+    TestsWithScores.to_csv(csvPath + '\\TestsWithScores.csv', encoding='utf-8', index=False)
 
