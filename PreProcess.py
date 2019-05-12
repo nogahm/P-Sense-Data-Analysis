@@ -110,7 +110,7 @@ def getWordCorrectAnswer(qId):
 def GetTestRates():
     global UserAnswer, TestsWithScores
     falseNegatives=[]
-    falsePositives=[]
+    falsePositives=pd.DataFrame(columns=['FP', 'picFP', 'wordFP', 'faceFP'])
     trueNegatives=[]
     truePositives=[]
     for i in UserTest["testId"]:
@@ -118,7 +118,7 @@ def GetTestRates():
         currAnswers=(UserAnswer.loc[UserAnswer['testId'] == i]).copy()
         currAnswers=AddRealAnswer(currAnswers)
         falseNegatives.append(CalcFalseNegative(currAnswers))
-        falsePositives.append(CalcFalsePositive(currAnswers))
+        falsePositives.concat(CalcFalsePositive(currAnswers))
         trueNegatives.append(CalcTrueNegative(currAnswers))
         truePositives.append(CalcTruePositive(currAnswers))
     TestsWithScores["testId"]=UserTest["testId"]
@@ -150,20 +150,30 @@ def AddRealAnswer(currAnswers):
 def CalcFalsePositive(currAnswers):
     count=0
     sum=0
+    picCount=0
+    picSum=0
+    wordCount = 0
+    wordSum = 0
+    faceCount = 0
+    faceSum = 0
     for index, row in currAnswers.iterrows():
         if(row["Qtype"]=="pic"):
             if(row["realAnswer"]=="nothing" and row["answer"]!="nothing"):
-                sum=sum+1
+                picSum=picSum+1
         if (row["Qtype"] == "word"):
             if (row["realAnswer"] == "no word" and row["answer"] == "word"):
-                sum = sum + 1
+                wordSum = wordSum + 1
         if (row["Qtype"] == "face"):
             if (row["realAnswer"] == "nonFace" and row["answer"] == "face"):
-                sum = sum + 1
+                faceSum = faceSum + 1
         # count only not real questions
-        if(row["realAnswer"]=="nothing" or row["realAnswer"] == "nonFace" or row["realAnswer"] == "no word"):
-            count=count+1
-    return sum/count
+        if(row["realAnswer"]=="nothing"):
+            picCount=picCount+1
+        if( row["realAnswer"] == "nonFace" ):
+            faceCount=faceCount+1;
+        if(row["realAnswer"] == "no word"):
+            wordCount=wordCount+1;
+    return pd.DataFrame(data=[sum/count, picSum/picCount, wordSum/wordCount, faceSum/faceCount], columns=['FP', 'picFP', 'wordFP', 'faceFP'])
 
 # answered "nothing" when was real
 def CalcFalseNegative(currAnswers):
