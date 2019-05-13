@@ -279,7 +279,7 @@ def GetTestMovie():
     TestsWithScores["video"] = ""
     for id in NotRegUsers["userID"]:
         currUserTests=(UserTest.loc[UserTest['userId'] == id]).copy()
-        if(len(currUserTests)<3):
+        if(len(currUserTests)!=3):
             continue
         # sort by testId
         currUserTests.sort_values(by=['testId'])

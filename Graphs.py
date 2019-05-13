@@ -34,8 +34,8 @@ def ShowFalsePositiveGraphs(TestsWithInfo):
     plt.plot(CalmData.index, CalmData['wordFP'])
     plt.plot(CalmData.index, CalmData['faceFP'])
     plt.legend(['Averaged False Positive', 'Pictures False Positive', 'Words False Positive', 'Faces False Positive'], loc='upper left')
-    plt.title('Calm Level - False Positive')
-    plt.xlabel('Calm Level')
+    plt.title('Stress Level - False Positive')
+    plt.xlabel('Stress Level')
     plt.ylabel('False Positive')
     plt.show()
 
@@ -53,6 +53,69 @@ def ShowFalsePositiveGraphs(TestsWithInfo):
     # plt.ylabel('False Positive')
     # plt.show()
     print('1')
+
+def GraphByQuestionType(Data):
+    calmData=Data.loc[Data['video']=='calm']
+    stress1Data=Data.loc[Data['video']=='stress1']
+    stress2Data=Data.loc[Data['video']=='stress2']
+    # words
+    wordsCalm=calmData.groupby('CalmLevel').mean()
+    wordsStress1=stress1Data.groupby('CalmLevel').mean()
+    wordsStress2=stress2Data.groupby('CalmLevel').mean()
+    plt.plot(wordsCalm.index, wordsCalm['wordFP'])
+    plt.plot(wordsStress1.index, wordsStress1['wordFP'])
+    plt.plot(wordsStress2.index, wordsStress2['wordFP'])
+
+    plt.legend(['Calm FP', 'Stress1 FP', 'Stress2 FP'],
+               loc='upper left')
+    plt.title('Stress Level - False Positive In Word Questions')
+    plt.xlabel('Stress Level')
+    plt.ylabel('False Positive')
+    plt.show()
+    print('1')
+
+    # pic
+    plt.clf()
+    plt.plot(wordsCalm.index, wordsCalm['picFP'])
+    plt.plot(wordsStress1.index, wordsStress1['picFP'])
+    plt.plot(wordsStress2.index, wordsStress2['picFP'])
+
+    plt.legend(['Calm FP', 'Stress1 FP', 'Stress2 FP'],
+               loc='upper left')
+    plt.title('Stress Level - False Positive In Pictures Questions')
+    plt.xlabel('Stress Level')
+    plt.ylabel('False Positive')
+    plt.show()
+    print('1')
+
+    # pic
+    plt.clf()
+    plt.plot(wordsCalm.index, wordsCalm['faceFP'])
+    plt.plot(wordsStress1.index, wordsStress1['faceFP'])
+    plt.plot(wordsStress2.index, wordsStress2['faceFP'])
+
+    plt.legend(['Calm FP', 'Stress1 FP', 'Stress2 FP'],
+               loc='upper left')
+    plt.title('Stress Level - False Positive In Pictures Faces')
+    plt.xlabel('Stress Level')
+    plt.ylabel('False Positive')
+    plt.show()
+    print('1')
+
+    # pic
+    plt.clf()
+    plt.plot(wordsCalm.index, wordsCalm['FP'])
+    plt.plot(wordsStress1.index, wordsStress1['FP'])
+    plt.plot(wordsStress2.index, wordsStress2['FP'])
+
+    plt.legend(['Calm FP', 'Stress1 FP', 'Stress2 FP'],
+               loc='upper left')
+    plt.title('Stress Level - Average False Positive In All Questions')
+    plt.xlabel('Stress Level')
+    plt.ylabel('False Positive')
+    plt.show()
+    print('1')
+
 
 
 
