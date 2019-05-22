@@ -306,12 +306,12 @@ def GetTestMovie():
         report2 = currUserReport.iloc[[1]]
         report3 = currUserReport.iloc[[2]]
         report4 = currUserReport.iloc[[3]]
-        difCalm1=report1["calmLevel"].values[0]-report2["calmLevel"].values[0]
-        difHappy1 = report1["happyLevel"].values[0] - report2["happyLevel"].values[0]
-        difCalm2 = report2["calmLevel"].values[0] - report3["calmLevel"].values[0]
-        difHappy2 = report2["happyLevel"].values[0] - report3["happyLevel"].values[0]
-        difCalm3 = report3["calmLevel"].values[0] - report4["calmLevel"].values[0]
-        difHappy3 = report3["happyLevel"].values[0]- report4["happyLevel"].values[0]
+        difCalm1=report2["calmLevel"].values[0]-report1["calmLevel"].values[0]
+        difHappy1 = report2["happyLevel"].values[0]-report1["happyLevel"].values[0]
+        difCalm2 = report3["calmLevel"].values[0]-report2["calmLevel"].values[0]
+        difHappy2 =  report3["happyLevel"].values[0]-report2["happyLevel"].values[0]
+        difCalm3 =  report4["calmLevel"].values[0]-report3["calmLevel"].values[0]
+        difHappy3 = report4["happyLevel"].values[0]-report3["happyLevel"].values[0]
         TestsWithScores.loc[TestsWithScores['testId'] == testId1,"diffCalm"]= difCalm1
         TestsWithScores.loc[TestsWithScores['testId'] == testId2,"diffCalm"]= difCalm2
         TestsWithScores.loc[TestsWithScores['testId'] == testId3,"diffCalm"]= difCalm3
