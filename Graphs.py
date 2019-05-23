@@ -28,7 +28,7 @@ import numpy as np
 def ShowFalsePositiveGraphs(TestsWithInfo):
     # CalmLevel Graph
     # FP
-    CalmData=TestsWithInfo.groupby('CalmLevel').mean()
+    CalmData=TestsWithInfo.groupby('PositiveLevel').mean()
     plt.plot(CalmData.index, CalmData['FP'])
     plt.plot(CalmData.index, CalmData['picFP'])
     plt.plot(CalmData.index, CalmData['wordFP'])
