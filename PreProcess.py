@@ -333,7 +333,7 @@ def SaveTests():
     TestsWithScores.to_csv(csvPath + '\\TestsWithScores.csv', encoding='utf-8', index=False)
 
 def LoadTestsWithScores():
-    global TestsWithScores
+    global TestsWithScores, csvPath
     TestsWithScores = pd.read_csv(csvPath + "\\TestsWithScores.csv")
 
 def addUserInfoToTest():

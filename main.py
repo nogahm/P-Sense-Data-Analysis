@@ -3,7 +3,7 @@ import BadParticipantsRemove
 import Graphs
 
 def main(dataPath):
-    #PreProcess.csvPath=dataPath
+    PreProcess.csvPath=dataPath
     #PreProcess.ReadFilesToDataFrame()
     #PreProcess.SplitToPictureAndFacesAnswers()
     #BadParticipantsRemove.RemoveParticipantsNotReportPANAS()
@@ -17,7 +17,12 @@ def main(dataPath):
    # PreProcess.LoadTestsWithScores()
     # Graphs.ShowFalsePositiveGraphs(PreProcess.TestsWithScores.loc[PreProcess.TestsWithScores['video']=='calm'])
     # Graphs.ShowDifferenceBetweenTests(PreProcess.TestsWithScores)
-    Graphs.GraphByQuestionType(PreProcess.TestsWithScores)
+    PreProcess.LoadTestsWithScores()
+    # firstCalm=PreProcess.TestsWithScores.loc[PreProcess.TestsWithScores['userId']==1]
+    # Graphs.GraphByQuestionType(firstCalm)
+
+    # Graphs.CalmMinusPositiveGraph(firstCalm)
+    Graphs.DiffCalmGraph(PreProcess.TestsWithScores)
 
 main('tables')
 

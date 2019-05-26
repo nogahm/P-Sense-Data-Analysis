@@ -1,5 +1,5 @@
 from difflib import SequenceMatcher
-import spacy
+# import spacy
 
 
 def similar(a, b):
@@ -7,10 +7,10 @@ def similar(a, b):
 
 
 def sentiment_analysis(a, b):
-    nlp = spacy.load('en_core_web_lg')  # make sure to use larger model!
+    # nlp = spacy.load('en_core_web_lg')  # make sure to use larger model!
     string = a+' '+b
-    tokens = nlp(string)
-    return tokens[0].similarity(tokens[1])
+    # tokens = nlp(string)
+    # return tokens[0].similarity(tokens[1])
 
 
 def calculate_correlation(a, b):
