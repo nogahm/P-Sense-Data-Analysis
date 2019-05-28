@@ -191,19 +191,22 @@ def CalcFalseNegative(currAnswers):
         if(row["Qtype"]=="pic"):
             if(row["realAnswer"]!="nothing" and row["answer"]=="nothing"):
                 picSum=picSum+1
+            if (row["realAnswer"] != "nothing"):
+                picCount = picCount + 1
         if (row["Qtype"] == "word"):
-            if (row["realAnswer"] == "word" and row["answer"] == "no word"):
+            if (row["realAnswer"] == "word" and row["answer"] == "nonWord"):
                 wordSum = wordSum + 1
+            if (row["realAnswer"] != "no word"):
+                wordCount = wordCount + 1
         if (row["Qtype"] == "face"):
             if (row["realAnswer"] == "face" and row["answer"] == "nonFace"):
                 faceSum = faceSum + 1
+            if (row["realAnswer"] != "nonFace"):
+                faceCount = faceCount + 1
         # count only not real questions
-        if (row["realAnswer"] != "nothing"):
-            picCount = picCount + 1
-        if (row["realAnswer"] != "nonFace"):
-            faceCount = faceCount + 1
-        if (row["realAnswer"] != "no word"):
-            wordCount = wordCount + 1
+
+
+
     count = picCount + faceCount + wordCount
     sum = picSum + faceSum + wordSum
     return pd.DataFrame(data=[[sum / count, picSum / picCount, wordSum / wordCount, faceSum / faceCount]],columns=['FN', 'picFN', 'wordFN', 'faceFN'])
@@ -223,7 +226,7 @@ def CalcTrueNegative(currAnswers):
             if(row["realAnswer"]=="nothing" and row["answer"]=="nothing"):
                 picSum=picSum+1
         if (row["Qtype"] == "word"):
-            if (row["realAnswer"] == "no word" and row["answer"] == "no word"):
+            if (row["realAnswer"] == "no word" and row["answer"] == "nonWord"):
                 wordSum = wordSum + 1
         if (row["Qtype"] == "face"):
             if (row["realAnswer"] == "nonFace" and row["answer"] == "nonFace"):
@@ -255,19 +258,22 @@ def CalcTruePositive(currAnswers):
         if(row["Qtype"]=="pic"):
             if(row["realAnswer"]!="nothing" and row["answer"]!="nothing"):
                 picSum=picSum+correlation.calculate_correlation(row["answer"], row["realAnswer"])
+            if (row["realAnswer"] != "nothing"):
+                picCount = picCount + 1
         if (row["Qtype"] == "word"):
             if (row["realAnswer"] == "word" and row["answer"] == "word"):
                 wordSum = wordSum + 1
+            if (row["realAnswer"] != "no word"):
+                wordCount = wordCount + 1
         if (row["Qtype"] == "face"):
             if (row["realAnswer"] == "face" and row["answer"] == "face"):
                 faceSum = faceSum + 1
+            if (row["realAnswer"] != "nonFace"):
+                faceCount = faceCount + 1
         # count only not real questions
-        if (row["realAnswer"] != "nothing"):
-            picCount = picCount + 1
-        if (row["realAnswer"] != "nonFace"):
-            faceCount = faceCount + 1
-        if (row["realAnswer"] != "no word"):
-            wordCount = wordCount + 1
+
+
+
     count = picCount + faceCount + wordCount
     sum = picSum + faceSum + wordSum
     return pd.DataFrame(data=[[sum / count, picSum / picCount, wordSum / wordCount, faceSum / faceCount]],

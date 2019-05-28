@@ -62,6 +62,8 @@ def GraphByQuestionType(Data):
     wordsCalm=calmData.groupby('CalmLevel').mean()
     wordsStress1=stress1Data.groupby('CalmLevel').mean()
     wordsStress2=stress2Data.groupby('CalmLevel').mean()
+    plt.clf()
+
     plt.plot(wordsCalm.index, wordsCalm['wordFP'])
     plt.plot(wordsStress1.index, wordsStress1['wordFP'])
     plt.plot(wordsStress2.index, wordsStress2['wordFP'])
