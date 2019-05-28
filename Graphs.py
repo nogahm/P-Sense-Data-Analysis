@@ -29,13 +29,14 @@ def ShowFalsePositiveGraphs(TestsWithInfo):
     # CalmLevel Graph
     # FP
     CalmData=TestsWithInfo.groupby('PositiveLevel').mean()
+    plt.clf()
     plt.plot(CalmData.index, CalmData['FP'])
     plt.plot(CalmData.index, CalmData['picFP'])
     plt.plot(CalmData.index, CalmData['wordFP'])
     plt.plot(CalmData.index, CalmData['faceFP'])
     plt.legend(['Averaged False Positive', 'Pictures False Positive', 'Words False Positive', 'Faces False Positive'], loc='upper left')
-    plt.title('Stress Level - False Positive')
-    plt.xlabel('Stress Level')
+    plt.title('Calm Level - False Positive')
+    plt.xlabel('Calm Level (1-Calm 9-exited)')
     plt.ylabel('False Positive')
     plt.show()
 
@@ -129,6 +130,21 @@ def CalmMinusPositiveGraph(Data):
     wordsCalm=calmData.groupby('calm minus positive').mean()
     wordsStress1=stress1Data.groupby('calm minus positive').mean()
     wordsStress2=stress2Data.groupby('calm minus positive').mean()
+
+    d = Data.groupby('calm minus positive').mean()
+    plt.clf()
+    plt.plot(d.index, d['FP'])
+    plt.plot(d.index, d['picFP'])
+    plt.plot(d.index, d['wordFP'])
+    plt.plot(d.index, d['faceFP'])
+    plt.legend(['Averaged False Positive', 'Pictures False Positive', 'Words False Positive', 'Faces False Positive'],
+               loc='upper left')
+    plt.title('calm level minus positive level - False Positive')
+    plt.xlabel('calm level minus positive level')
+    plt.ylabel('False Positive')
+    plt.show()
+    print(1)
+
     plt.clf()
     plt.plot(wordsCalm.index, wordsCalm['wordFP'])
     plt.plot(wordsStress1.index, wordsStress1['wordFP'])

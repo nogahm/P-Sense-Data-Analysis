@@ -18,7 +18,7 @@ def main(dataPath):
     PreProcess.LoadTestsWithScores()
 
     Graphs.ShowFalsePositiveGraphs(PreProcess.TestsWithScores.loc[PreProcess.TestsWithScores['video']=='calm'])
-    Graphs.ShowDifferenceBetweenTests(PreProcess.TestsWithScores)
+    # Graphs.ShowDifferenceBetweenTests(PreProcess.TestsWithScores)
 
     # firstCalm=PreProcess.TestsWithScores.loc[PreProcess.TestsWithScores['userId']==1]
     Graphs.GraphByQuestionType(PreProcess.TestsWithScores)
